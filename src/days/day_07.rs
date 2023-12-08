@@ -1,9 +1,11 @@
-use std::ops::Sub;
+use std::collections::HashMap;
 
 use axum::routing::get;
 use axum::{Json, Router};
 use axum_extra::extract::CookieJar;
 use base64::Engine;
+
+type Recipe = HashMap<String, usize>;
 
 const COOKIE_NAME: &str = "recipe";
 
@@ -13,49 +15,7 @@ pub(super) fn route() -> Router {
         .route("/bake", get(bake))
 }
 
-#[derive(Copy, Clone, Default, PartialOrd, PartialEq, serde::Deserialize, serde::Serialize)]
-struct Recipe {
-    #[serde(default, skip_serializing_if = "is_default")]
-    flour: usize,
-    #[serde(default, skip_serializing_if = "is_default")]
-    sugar: usize,
-    #[serde(default, skip_serializing_if = "is_default")]
-    butter: usize,
-    #[serde(default, skip_serializing_if = "is_default", rename = "baking powder")]
-    baking_powder: usize,
-    #[serde(
-        default,
-        skip_serializing_if = "is_default",
-        rename = "chocolate chips"
-    )]
-    chocolate_chips: usize,
-}
-
-impl Sub for Recipe {
-    type Output = Self;
-
-    fn sub(self, other: Self) -> Self::Output {
-        Self {
-            flour: self.flour - other.flour,
-            sugar: self.sugar - other.sugar,
-            butter: self.butter - other.butter,
-            baking_powder: self.baking_powder - other.baking_powder,
-            chocolate_chips: self.chocolate_chips - other.chocolate_chips,
-        }
-    }
-}
-
-impl std::ops::SubAssign for Recipe {
-    fn sub_assign(&mut self, rhs: Self) {
-        *self = self.sub(rhs)
-    }
-}
-
-fn is_default(t: &usize) -> bool {
-    *t == 0
-}
-
-async fn decode(jar: CookieJar) -> Json<Recipe> {
+async fn decode(jar: CookieJar) -> Json<serde_json::Value> {
     decode_cookie(jar).map(Json).unwrap()
 }
 
@@ -71,14 +31,35 @@ struct BakeResult {
     pantry: Recipe,
 }
 
-// TODO: Missing Task 3
 async fn bake(jar: CookieJar) -> Json<BakeResult> {
     decode_cookie(jar)
         .map(|mut x: BakeInput| {
-            let mut cookies = 0;
-            while x.recipe < x.pantry {
-                cookies += 1;
-                x.pantry -= x.recipe;
+            let mut cookies = usize::MAX;
+            // locate amount of cookies available to make
+            for (ingredient, recipe_amount) in &x.recipe {
+                if let Some(pantry_amount) = x.pantry.get(ingredient) {
+                    cookies = (pantry_amount / recipe_amount).min(cookies);
+                    if cookies == 0 {
+                        // we can't make a single cookie if we don't have enough of one of the ingredients
+                        return Json(BakeResult {
+                            cookies,
+                            pantry: x.pantry,
+                        });
+                    }
+                } else {
+                    // ingredient not found in the pantry? we can't make cookies
+                    return Json(BakeResult {
+                        cookies: 0,
+                        pantry: x.pantry,
+                    });
+                }
+            }
+            // recalculate pantry based on the number of cookies to make
+            for (ingredient, recipe_amount) in x.recipe {
+                let amount_needed = recipe_amount * cookies;
+                x.pantry
+                    .entry(ingredient)
+                    .and_modify(|x| *x -= amount_needed);
             }
             Json(BakeResult {
                 cookies,
@@ -133,6 +114,24 @@ mod test {
     "butter": 2002,
     "baking powder": 825,
     "chocolate chips": 257
+  }
+}));
+    }
+
+    #[tokio::test]
+    async fn task3() {
+        routes_test()
+            .get("/7/bake")
+            .add_cookie(Cookie::new(
+                COOKIE_NAME,
+                "eyJyZWNpcGUiOnsic2xpbWUiOjl9LCJwYW50cnkiOnsiY29iYmxlc3RvbmUiOjY0LCJzdGljayI6IDR9fQ==",
+            ))
+            .await
+            .assert_json(&json!({
+  "cookies": 0,
+  "pantry": {
+    "cobblestone": 64,
+    "stick": 4
   }
 }));
     }
