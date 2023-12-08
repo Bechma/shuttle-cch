@@ -14,3 +14,17 @@ pub fn routes() -> Router {
         .nest("/7", day_07::route())
         .nest("/8", day_08::route())
 }
+
+#[cfg(test)]
+pub(crate) fn routes_test() -> axum_test::TestServer {
+    let app = routes();
+    let config = axum_test::TestServerConfig::builder()
+        // Preserve cookies across requests
+        // for the session cookie to work.
+        .save_cookies()
+        .expect_success_by_default()
+        .mock_transport()
+        .build();
+
+    axum_test::TestServer::new_with_config(app, config).unwrap()
+}

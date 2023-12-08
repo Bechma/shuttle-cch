@@ -5,6 +5,8 @@ use axum::{Json, Router};
 use axum_extra::extract::CookieJar;
 use base64::Engine;
 
+const COOKIE_NAME: &str = "recipe";
+
 pub(super) fn route() -> Router {
     Router::new()
         .route("/decode", get(decode))
@@ -86,11 +88,52 @@ async fn bake(jar: CookieJar) -> Json<BakeResult> {
         .unwrap()
 }
 
-#[inline]
 fn decode_cookie<T: serde::de::DeserializeOwned>(jar: CookieJar) -> Option<T> {
-    let recipe = jar.get("recipe")?;
+    let recipe = jar.get(COOKIE_NAME)?;
     base64::engine::general_purpose::STANDARD
         .decode(recipe.value())
         .map(|x| serde_json::from_slice(&x).unwrap())
         .ok()
+}
+
+#[cfg(test)]
+mod test {
+    use axum_extra::extract::cookie::Cookie;
+    use serde_json::json;
+
+    use super::super::routes_test;
+    use super::COOKIE_NAME;
+
+    #[tokio::test]
+    async fn task1() {
+        routes_test()
+            .get("/7/decode")
+            .add_cookie(Cookie::new(
+                COOKIE_NAME,
+                "eyJmbG91ciI6MTAwLCJjaG9jb2xhdGUgY2hpcHMiOjIwfQ==",
+            ))
+            .await
+            .assert_json(&json!({"flour":100,"chocolate chips":20}));
+    }
+
+    #[tokio::test]
+    async fn task2() {
+        routes_test()
+            .get("/7/bake")
+            .add_cookie(Cookie::new(
+                COOKIE_NAME,
+                "eyJyZWNpcGUiOnsiZmxvdXIiOjk1LCJzdWdhciI6NTAsImJ1dHRlciI6MzAsImJha2luZyBwb3dkZXIiOjEwLCJjaG9jb2xhdGUgY2hpcHMiOjUwfSwicGFudHJ5Ijp7ImZsb3VyIjozODUsInN1Z2FyIjo1MDcsImJ1dHRlciI6MjEyMiwiYmFraW5nIHBvd2RlciI6ODY1LCJjaG9jb2xhdGUgY2hpcHMiOjQ1N319",
+            ))
+            .await
+            .assert_json(&json!({
+  "cookies": 4,
+  "pantry": {
+    "flour": 5,
+    "sugar": 307,
+    "butter": 2002,
+    "baking powder": 825,
+    "chocolate chips": 257
+  }
+}));
+    }
 }

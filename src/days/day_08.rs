@@ -6,7 +6,7 @@ use axum::{Json, Router};
 use rustemon::client::RustemonClient;
 
 pub(super) fn route() -> Router {
-    let rustemon_client = Arc::new(rustemon::client::RustemonClient::default());
+    let rustemon_client = Arc::new(RustemonClient::default());
     Router::new()
         .route("/weight/:pokemon", get(weight))
         .route("/drop/:pokemon", get(drop))
@@ -32,4 +32,22 @@ async fn drop(Path(pokemon): Path<i64>, State(client): State<Arc<RustemonClient>
             Json(velocity * mass)
         })
         .unwrap()
+}
+
+#[cfg(test)]
+mod test {
+    use super::super::routes_test;
+
+    #[tokio::test]
+    async fn task1() {
+        routes_test().get("/8/weight/25").await.assert_json(&6);
+    }
+
+    #[tokio::test]
+    async fn task2() {
+        routes_test()
+            .get("/8/drop/25")
+            .await
+            .assert_json(&84.10707461325713);
+    }
 }
