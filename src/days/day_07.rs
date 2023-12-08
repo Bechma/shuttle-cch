@@ -16,7 +16,7 @@ pub(super) fn route() -> Router {
 }
 
 async fn decode(jar: CookieJar) -> Json<serde_json::Value> {
-    decode_cookie(jar).map(Json).unwrap()
+    decode_cookie(&jar).map(Json).unwrap()
 }
 
 #[derive(serde::Deserialize)]
@@ -32,7 +32,7 @@ struct BakeResult {
 }
 
 async fn bake(jar: CookieJar) -> Json<BakeResult> {
-    decode_cookie(jar)
+    decode_cookie(&jar)
         .map(|mut x: BakeInput| {
             let mut cookies = usize::MAX;
             // locate amount of cookies available to make
@@ -69,7 +69,7 @@ async fn bake(jar: CookieJar) -> Json<BakeResult> {
         .unwrap()
 }
 
-fn decode_cookie<T: serde::de::DeserializeOwned>(jar: CookieJar) -> Option<T> {
+fn decode_cookie<T: serde::de::DeserializeOwned>(jar: &CookieJar) -> Option<T> {
     let recipe = jar.get(COOKIE_NAME)?;
     base64::engine::general_purpose::STANDARD
         .decode(recipe.value())
