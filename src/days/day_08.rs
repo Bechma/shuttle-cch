@@ -13,10 +13,10 @@ pub(super) fn route() -> Router {
         .with_state(rustemon_client)
 }
 
-async fn weight(Path(pokemon): Path<i64>, State(client): State<Arc<RustemonClient>>) -> Json<i64> {
+async fn weight(Path(pokemon): Path<i64>, State(client): State<Arc<RustemonClient>>) -> Json<f64> {
     rustemon::pokemon::pokemon::get_by_id(pokemon, &client)
         .await
-        .map(|x| Json(x.weight / 10))
+        .map(|x| Json(x.weight as f64 / 10f64))
         .unwrap()
 }
 
@@ -26,7 +26,7 @@ async fn drop(Path(pokemon): Path<i64>, State(client): State<Arc<RustemonClient>
     rustemon::pokemon::pokemon::get_by_id(pokemon, &client)
         .await
         .map(|x| {
-            let mass = (x.weight / 10) as f64;
+            let mass = x.weight as f64 / 10f64;
             let kinetic_energy = mass * G * 10f64;
             let velocity = (2f64 * kinetic_energy / mass).sqrt();
             Json(velocity * mass)
