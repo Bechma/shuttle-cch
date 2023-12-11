@@ -40,7 +40,7 @@ mod test {
 
     #[tokio::test]
     async fn task1() {
-        routes_test().get("/8/weight/25").await.assert_json(&6);
+        routes_test().get("/8/weight/25").await.assert_json(&6f64);
     }
 
     #[tokio::test]

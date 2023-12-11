@@ -345,3 +345,51 @@ curl http://localhost:8000/8/drop/25
 ```
 
 Validation has a fault tolerance of 0.001
+
+### [🎄 Day 11: Imagery from the North Pole](src/days/day_11.rs)
+
+Decked out in his signature red coat, Santa's eyes sparkle brighter than the Northern Star as he navigates through tall
+shelves packed with newly produced Christmas decorations for the season. Handcrafted glass balls, ornate stars,
+whimsical snowflakes, festive tinsel - you name it, they have it all.
+
+⭐ Task 1: Served on a silver platter
+
+The time has come to decorate our surroundings! The elves are getting tired of working with just strings and numbers and
+bytes, and are in need of some fancy christmas ornaments on the computer screens.
+
+![image provided](assets/decoration.png)
+
+Download the image above and serve it as a static file so that a GET request to /11/assets/decoration.png responds with
+the image file and a correct MIME type header (Content-Type: image/png).
+
+💠 Example Input
+
+```bash
+curl -I -X GET http://localhost:8000/11/assets/decoration.png
+```
+
+💠 Example Output
+
+```
+HTTP/1.1 200 OK
+content-type: image/png
+content-length: 787297
+...
+```
+
+🎁 Task 2: Bull mode activated (200 bonus points)
+
+Add a POST endpoint /11/red_pixels, that takes in a PNG image in the image field of a multipart POST request, and
+returns the number of pixels in the image that are perceived as "magical red" when viewed with Santa's night vision
+goggles. The goggles considers a pixel "magical red" if the color values of the pixel fulfill the formula red > blue +
+green.
+
+💠 Example
+
+```bash
+curl -X POST http://localhost:8000/11/red_pixels \
+-H 'Content-Type: multipart/form-data' \
+-F 'image=@decoration.png' # the image from Task 1
+
+73034
+```

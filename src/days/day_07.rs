@@ -37,6 +37,9 @@ async fn bake(jar: CookieJar) -> Json<BakeResult> {
             let mut cookies = usize::MAX;
             // locate amount of cookies available to make
             for (ingredient, recipe_amount) in &x.recipe {
+                if recipe_amount == &0 {
+                    continue;
+                }
                 if let Some(pantry_amount) = x.pantry.get(ingredient) {
                     cookies = (pantry_amount / recipe_amount).min(cookies);
                     if cookies == 0 {
@@ -134,5 +137,76 @@ mod test {
     "stick": 4
   }
 }));
+    }
+
+    #[tokio::test]
+    async fn extra1() {
+        routes_test()
+            .get("/7/bake")
+            .add_cookie(Cookie::new(
+                COOKIE_NAME,
+                "eyJyZWNpcGUiOnsiY2hpY2tlbiI6MX0sInBhbnRyeSI6eyJjaGlja2VuIjowfX0=",
+            ))
+            .await
+            .assert_json(&json!({
+                "cookies": 0,
+                "pantry": {
+                    "chicken": 0,
+                }
+            }));
+    }
+
+    #[tokio::test]
+    async fn extra2() {
+        routes_test()
+            .get("/7/bake")
+            .add_cookie(Cookie::new(
+                COOKIE_NAME,
+                "eyJyZWNpcGUiOnsiY29jb2EgYmVhbiI6MSwiY2hpY2tlbiI6MH0sInBhbnRyeSI6eyJjb2NvYSBiZWFuIjo1LCJjb3JuIjo1LCJjdWN1bWJlciI6MH19",
+            ))
+            .await
+            .assert_json(&json!({
+            "cookies": 5,
+            "pantry": {
+                "cocoa bean": 0,
+                "corn": 5,
+                "cucumber": 0,
+            }
+        }));
+    }
+
+    #[tokio::test]
+    async fn extra3() {
+        routes_test()
+            .get("/7/bake")
+            .add_cookie(Cookie::new(
+                COOKIE_NAME,
+                "eyJyZWNpcGUiOnsiY29jb2EgYmVhbiI6MSwiY2hpY2tlbiI6MH0sInBhbnRyeSI6eyJjb2NvYSBiZWFuIjo1LCJjaGlja2VuIjowfX0=",
+            ))
+            .await
+            .assert_json(&json!({
+            "cookies": 5,
+            "pantry": {
+                "cocoa bean": 0,
+                "chicken": 0,
+            }
+        }));
+    }
+
+    #[tokio::test]
+    async fn extra4() {
+        routes_test()
+            .get("/7/bake")
+            .add_cookie(Cookie::new(
+                COOKIE_NAME,
+                "eyJyZWNpcGUiOnsiY29jb2EgYmVhbiI6MSwiY2hpY2tlbiI6MH0sInBhbnRyeSI6eyJjb2NvYSBiZWFuIjo1fX0=",
+            ))
+            .await
+            .assert_json(&json!({
+            "cookies": 5,
+            "pantry": {
+                "cocoa bean": 0,
+            }
+        }));
     }
 }

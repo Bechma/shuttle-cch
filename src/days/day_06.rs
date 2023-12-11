@@ -15,12 +15,23 @@ struct Elf {
 }
 
 async fn elf_count(body: String) -> Json<Elf> {
-    let elf_on_a_shelf = body.matches("elf on a shelf").count();
-    let shelves = body.matches("shelf").count();
+    const SHELF: &str = "shelf";
+    const SHELF_TRIGGER: &str = "elf on a ";
+
+    let (mut elf_on_a_shelf, mut shelf_with_no_elf_on_it) = (0, 0);
+    for i in 0..=body.len() - SHELF.len() {
+        if SHELF == &body[i..i + SHELF.len()] {
+            if i >= SHELF_TRIGGER.len() && body[..i].ends_with(SHELF_TRIGGER) {
+                elf_on_a_shelf += 1;
+            } else {
+                shelf_with_no_elf_on_it += 1;
+            }
+        }
+    }
     Json(Elf {
         elf: body.matches("elf").count(),
         elf_on_a_shelf,
-        shelf_with_no_elf_on_it: shelves - elf_on_a_shelf,
+        shelf_with_no_elf_on_it,
     })
 }
 
@@ -53,5 +64,44 @@ Look, there is also an elf on that shelf!",
             )
             .await
             .assert_json(&json!({"elf":5,"elf on a shelf":1,"shelf with no elf on it":1}));
+    }
+
+    #[tokio::test]
+    async fn extra1() {
+        routes_test()
+            .post("/6")
+            .text("elf elf elf on a shelf")
+            .await
+            .assert_json(&json!({
+                "elf":4,
+                "elf on a shelf":1,
+                "shelf with no elf on it":0
+            }));
+    }
+
+    #[tokio::test]
+    async fn extra2() {
+        routes_test()
+            .post("/6")
+            .text("In Belfast I heard an elf on a shelf on a shelf on a ")
+            .await
+            .assert_json(&json!({
+                "elf":4,
+                "elf on a shelf":2,
+                "shelf with no elf on it":0
+            }));
+    }
+
+    #[tokio::test]
+    async fn extra3() {
+        routes_test()
+            .post("/6")
+            .text("Somewhere in Belfast under a shelf store but above the shelf realm there's an elf on a shelf on a shelf on a shelf on a elf on a shelf on a shelf on a shelf on a shelf on a elf on a elf on a elf on a shelf on a ")
+            .await
+            .assert_json(&json!({
+                "elf":16,
+                "elf on a shelf":8,
+                "shelf with no elf on it":2
+            }));
     }
 }
