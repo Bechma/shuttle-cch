@@ -16,7 +16,7 @@ async fn magical(mut multipart: axum::extract::Multipart) -> axum::Json<usize> {
         img.pixels()
             .filter(|x| {
                 let [r, g, b, _] = x.2 .0;
-                r as u16 > (g as u16 + b as u16)
+                u16::from(r) > (u16::from(g) + u16::from(b))
             })
             .count(),
     )
