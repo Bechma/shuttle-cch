@@ -12,14 +12,13 @@ async fn magical(mut multipart: axum::extract::Multipart) -> axum::Json<usize> {
     };
 
     let img = image::load_from_memory(field.bytes().await.unwrap().as_ref()).unwrap();
-    axum::Json(
-        img.pixels()
-            .filter(|x| {
-                let [r, g, b, _] = x.2 .0;
-                u16::from(r) > (u16::from(g) + u16::from(b))
-            })
-            .count(),
-    )
+    img.pixels()
+        .filter(|x| {
+            let [r, g, b, _] = x.2 .0;
+            u16::from(r) > (u16::from(g) + u16::from(b))
+        })
+        .count()
+        .into()
 }
 
 #[cfg(test)]

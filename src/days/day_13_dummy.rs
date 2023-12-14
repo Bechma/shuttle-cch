@@ -26,7 +26,7 @@ struct Order {
 }
 
 async fn sql() -> Json<i64> {
-    Json(20231213)
+    Json(20_231_213)
 }
 
 async fn reset(State(db): State<Day13State>) {
@@ -70,7 +70,7 @@ async fn popular(State(db): State<Day13State>) -> Json<Popular> {
             .or_insert(order.quantity);
     }
     Json(Popular {
-        popular: counter.iter().max_by_key(|x| x.1).map(|x| x.0.to_string()),
+        popular: counter.iter().max_by_key(|x| x.1).map(|x| (*x.0).to_string()),
     })
 }
 
@@ -82,7 +82,7 @@ mod test {
     async fn all_tests() {
         let server = super::super::routes_test().await;
         // Task 1
-        server.get("/13/sql").await.assert_json(&20231213i64);
+        server.get("/13/sql").await.assert_json(&20_231_213_i64);
 
         // Task 2
         server.post("/13/reset").await.assert_status_ok();

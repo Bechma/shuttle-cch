@@ -38,10 +38,10 @@ async fn reset(State(db): State<sqlx::SqlitePool>) {
 
 async fn insert_orders(State(db): State<sqlx::SqlitePool>, Json(payload): Json<Vec<Order>>) {
     let mut tx = db.begin().await.unwrap();
-    for order in payload.iter() {
+    for order in &payload {
         sqlx::query(
-            r#"INSERT INTO orders (id, region_id, gift_name, quantity)
-            VALUES ($1, $2, $3, $4)"#,
+            r"INSERT INTO orders (id, region_id, gift_name, quantity)
+            VALUES ($1, $2, $3, $4)",
         )
         .bind(order.id)
         .bind(order.region_id)
@@ -92,7 +92,7 @@ mod test {
     async fn all_tests() {
         let server = super::super::routes_test().await;
         // Task 1
-        server.get("/13/sql").await.assert_json(&20231213i64);
+        server.get("/13/sql").await.assert_json(&20_231_213_i64);
 
         // Task 2
         server.post("/13/reset").await.assert_status_ok();

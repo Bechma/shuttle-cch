@@ -8,7 +8,7 @@ pub(super) fn route() -> Router {
 }
 
 async fn strength(Json(payload): Json<Vec<Reindeer>>) -> Json<i64> {
-    Json(payload.into_iter().map(|x| x.strength).sum())
+    payload.into_iter().map(|x| x.strength).sum::<i64>().into()
 }
 
 #[derive(serde::Deserialize)]
@@ -40,7 +40,7 @@ struct ContestOutput {
 
 async fn contest(Json(payload): Json<Vec<Reindeer>>) -> Json<ContestOutput> {
     let Some(first) = payload.first() else {
-        return Json(ContestOutput::default());
+        return ContestOutput::default().into();
     };
     let (mut fastest, mut tallest, mut magician, mut consumer) = (first, first, first, first);
     for x in &payload {

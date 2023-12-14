@@ -7,23 +7,24 @@ pub(super) fn route() -> Router {
 }
 
 async fn numbers(Path(numbers): Path<String>) -> Json<i64> {
-    Json(
-        numbers
-            .trim_end_matches('/')
-            .split('/')
-            .map(|x| x.parse::<i64>().unwrap())
-            .fold(0, std::ops::BitXor::bitxor)
-            .pow(3),
-    )
+    numbers
+        .trim_end_matches('/')
+        .split('/')
+        .map(|x| x.parse::<i64>().unwrap())
+        .fold(0, std::ops::BitXor::bitxor)
+        .pow(3)
+        .into()
 }
 
 #[cfg(test)]
 mod test {
     use super::super::routes_test;
+
     #[tokio::test]
     async fn task1() {
         routes_test().await.get("/1/4/8").await.assert_json(&1728);
     }
+
     #[tokio::test]
     async fn task2_1() {
         routes_test().await.get("/1/10").await.assert_json(&1000);

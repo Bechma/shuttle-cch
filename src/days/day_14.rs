@@ -12,26 +12,26 @@ pub(super) fn route() -> Router {
     let mut env = Environment::new();
     env.add_template(
         "unsafe",
-        r#"<html>
+        r"<html>
   <head>
     <title>CCH23 Day 14</title>
   </head>
   <body>
     {{ content | safe }}
   </body>
-</html>"#,
+</html>",
     )
     .unwrap();
     env.add_template(
         "safe",
-        r#"<html>
+        r"<html>
   <head>
     <title>CCH23 Day 14</title>
   </head>
   <body>
     {{ content | escape }}
   </body>
-</html>"#,
+</html>",
     )
     .unwrap();
     Router::new()
@@ -74,15 +74,15 @@ mod test {
             .json(&json!({"content": "<h1>Welcome to the North Pole!</h1>"}))
             .await
             .assert_text(
-                r#"<html>
+                r"<html>
   <head>
     <title>CCH23 Day 14</title>
   </head>
   <body>
     <h1>Welcome to the North Pole!</h1>
   </body>
-</html>"#,
-            )
+</html>",
+            );
     }
 
     #[tokio::test]
@@ -93,14 +93,14 @@ mod test {
             .json(&json!({"content": "<script>alert(\"XSS Attack!\")</script>"}))
             .await
             .assert_text(
-                r#"<html>
+                r"<html>
   <head>
     <title>CCH23 Day 14</title>
   </head>
   <body>
     &lt;script&gt;alert(&quot;XSS Attack!&quot;)&lt;/script&gt;
   </body>
-</html>"#,
-            )
+</html>",
+            );
     }
 }

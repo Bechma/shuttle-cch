@@ -33,13 +33,12 @@ async fn load(Path(elem): Path<String>, State(state): State<Day12State>) -> Json
 }
 
 async fn task2(Json(payload): Json<Vec<String>>) -> Json<Vec<String>> {
-    Json(
-        payload
-            .into_iter()
-            .rev()
-            .map(|x| uuid::Uuid::from_u128(ulid::Ulid::from_string(&x).unwrap().0).to_string())
-            .collect(),
-    )
+    payload
+        .into_iter()
+        .rev()
+        .map(|x| uuid::Uuid::from_u128(ulid::Ulid::from_string(&x).unwrap().0).to_string())
+        .collect::<Vec<_>>()
+        .into()
 }
 
 #[derive(serde::Serialize, Default)]
