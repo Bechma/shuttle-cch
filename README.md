@@ -1,7 +1,7 @@
 Shuttle's Christmas Code Hunt
 =============================
 
-### [🎄 Day 1: Packet "exclusive-cube" not found](src/days/day_01.rs)
+## [🎄 Day 1: Packet "exclusive-cube" not found](src/days/day_01.rs)
 
 In the frosty expanses of the North Pole, Santa's advanced packet management system has encountered a glitch. This
 system, known for its robustness and magical speed, is responsible for sorting and dispatching all the Christmas
@@ -46,9 +46,9 @@ curl http://localhost:8000/1/4/5/8/10
 27
 ```
 
-### Day 2 and Day 3 missing due to some issues in shuttle
+## Day 2 and Day 3 missing due to some issues in shuttle
 
-### [🎄 Day 4: What do you call a serialized reindeer? Serdeer!](src/days/day_04.rs)
+## [🎄 Day 4: What do you call a serialized reindeer? Serdeer!](src/days/day_04.rs)
 
 Under the soft glow of the Northern Lights, Santa's reindeer are training for the big night. But, oh deer! The
 reindeer's stats have been serialized into an unknown format after a playful elf accidentally spilled hot cocoa on the
@@ -134,12 +134,12 @@ is parsed and checked as a value.
 }
 ```
 
-### 🎄 Day 5?
+## 🎄 Day 5 got missing, IDK the reason
 
 The Grinch stole the contents of this challenge while the Shuttle team wasn't looking! Check back soon in case we find
 the challenge contents!
 
-### [🎄 Day 6: Elf on a shelf](src/days/day_06.rs)
+## [🎄 Day 6: Elf on a shelf](src/days/day_06.rs)
 
 It's that time of year when the elves hide on shelves to watch over the children of the world, reporting back to Santa
 on who's been naughty or nice. However, this year's reports have been mixed up with the rest of the letters to Santa,
@@ -185,7 +185,7 @@ there is also another shelf in Belfast.'
 {"elf":5,"elf on a shelf":1,"shelf with no elf on it":1}
 ```
 
-### [🎄 Day 7: GET Santa some cookies](src/days/day_07.rs)
+## [🎄 Day 7: GET Santa some cookies](src/days/day_07.rs)
 
 At Santa's base near the North Pole (64 km away to be precise), the scent of freshly baked cookies fills the air, a sign
 that Christmas is near. Santa, however, has forgotten the encoding method that was used to hide his favorite cookie
@@ -298,7 +298,7 @@ curl http://localhost:8000/7/bake \
 }
 ```
 
-### [🎄 Day 8: PokéPhysics](src/days/day_08.rs)
+## [🎄 Day 8: PokéPhysics](src/days/day_08.rs)
 
 In the heart of the North Pole, Santa's workshop buzzes with a new type of magic. A portal has opened, and Pokémon from
 another world have tumbled into the snow-dusted realm of elves and reindeer. Santa, ever the innovator, sees an
@@ -346,7 +346,7 @@ curl http://localhost:8000/8/drop/25
 
 Validation has a fault tolerance of 0.001
 
-### [🎄 Day 11: Imagery from the North Pole](src/days/day_11.rs)
+## [🎄 Day 11: Imagery from the North Pole](src/days/day_11.rs)
 
 Decked out in his signature red coat, Santa's eyes sparkle brighter than the Northern Star as he navigates through tall
 shelves packed with newly produced Christmas decorations for the season. Handcrafted glass balls, ornate stars,
@@ -394,7 +394,7 @@ curl -X POST http://localhost:8000/11/red_pixels \
 73034
 ```
 
-### [🎄 Day 12: Timekeeper](src/days/day_12.rs)
+## [🎄 Day 12: Timekeeper](src/days/day_12.rs)
 
 One frosty night, Santa, dressed warmly in his favorite red coat, decided to take a midnight stroll around the elf
 workshop. As he pushed open the heavy wooden doors of the workshop, his eyes widened in surprise. He was completely
@@ -502,7 +502,7 @@ curl -X POST http://localhost:8000/12/ulids/5 \
 }
 ```
 
-### [🎄 Day 13: Santa's Gift Orders](src/days/day_13.rs)
+## [🎄 Day 13: Santa's Gift Orders](src/days/day_13.rs)
 
 Santa Claus has started facing a pressing issue at the North Pole. The existing database, written in a legacy language,
 is becoming insufficient for handling the tidal wave of gift requests from children worldwide. This ancient system is
@@ -589,4 +589,72 @@ curl -X POST http://localhost:8000/13/orders \
 curl http://localhost:8000/13/orders/popular
 
 {"popular":"Toy Train"}
+```
+
+## [🎄 Day 14: Reindeering HTML](src/days/day_14.rs)
+
+Did you hear about the time when Santa became a web designer? He picked up coding with great enthusiasm. Each tag told a
+story, every element was a toy, and every attribute was a wish from a child around the world. He soon managed to build a
+website where children could easily send their letters filled with Christmas wishes, and the elves could more
+efficiently organize the toymaking process.
+
+⭐ Task 1: Ho-ho, Toymaking Magic Land! (HTML)
+
+Today we are simulating an incident that happened shortly after Santa joined the web dev team at the North Pole.
+
+Implement a POST endpoint /14/unsafe that takes some HTML content and unsafely renders it on a small HTML page.
+
+🔔 Tips
+
+If you choose to use a templating engine for this task, make sure you disable escaping to allow unsafe rendering.
+
+💠 Example Input
+
+```bash
+curl -X POST http://localhost:8000/14/unsafe \
+-H "Content-Type: application/json" \
+-d '{"content": "<h1>Welcome to the North Pole!</h1>"}'
+```
+
+💠 Example Output
+
+Make sure that no extra whitespace is rendered. The response content below is 124 bytes long.
+
+```html
+
+<html>
+<head>
+    <title>CCH23 Day 14</title>
+</head>
+<body>
+<h1>Welcome to the North Pole!</h1>
+</body>
+</html>
+```
+
+🎁 Task 2: Safety 2nd (100 bonus points)
+
+Time to clean up the mess that Santa caused in Task 1. Show him how it's done in /14/safe by securely rendering the HTML
+against script injection.
+
+💠 Example Input
+
+```bash
+curl -X POST http://localhost:8000/14/safe \
+-H "Content-Type: application/json" \
+-d '{"content": "<script>alert(\"XSS Attack!\")</script>"}'
+```
+
+💠 Example Output
+
+```html
+
+<html>
+<head>
+    <title>CCH23 Day 14</title>
+</head>
+<body>
+&lt;script&gt;alert(&quot;XSS Attack!&quot;)&lt;/script&gt;
+</body>
+</html>
 ```

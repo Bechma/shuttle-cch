@@ -422,6 +422,7 @@ dependencies = [
  "base64",
  "chrono",
  "image",
+ "minijinja",
  "rustemon",
  "serde",
  "serde_json",
@@ -1659,6 +1660,15 @@ checksum = "4192263c238a5f0d0c6bfd21f336a313a4ce1c450542449ca191bb657b4642ef"
 dependencies = [
  "mime",
  "unicase",
+]
+
+[[package]]
+name = "minijinja"
+version = "1.0.10"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "208758577ef2c86cf5dd3e85730d161413ec3284e2d73b2ef65d9a24d9971bcb"
+dependencies = [
+ "serde",
 ]
 
 [[package]]
