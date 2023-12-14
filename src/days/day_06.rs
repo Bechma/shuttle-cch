@@ -44,6 +44,7 @@ mod test {
     #[tokio::test]
     async fn task1() {
         routes_test()
+            .await
             .post("/6")
             .text(
                 "The mischievous elf peeked out from behind the toy workshop,
@@ -57,6 +58,7 @@ Look, there is also an elf on that shelf!",
     #[tokio::test]
     async fn task2() {
         routes_test()
+            .await
             .post("/6")
             .text(
                 "there is an elf on a shelf on an elf.
@@ -69,6 +71,7 @@ Look, there is also an elf on that shelf!",
     #[tokio::test]
     async fn extra1() {
         routes_test()
+            .await
             .post("/6")
             .text("elf elf elf on a shelf")
             .await
@@ -82,6 +85,7 @@ Look, there is also an elf on that shelf!",
     #[tokio::test]
     async fn extra2() {
         routes_test()
+            .await
             .post("/6")
             .text("In Belfast I heard an elf on a shelf on a shelf on a ")
             .await
@@ -94,7 +98,7 @@ Look, there is also an elf on that shelf!",
 
     #[tokio::test]
     async fn extra3() {
-        routes_test()
+        routes_test().await
             .post("/6")
             .text("Somewhere in Belfast under a shelf store but above the shelf realm there's an elf on a shelf on a shelf on a shelf on a elf on a shelf on a shelf on a shelf on a shelf on a elf on a elf on a elf on a shelf on a ")
             .await

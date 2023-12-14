@@ -40,12 +40,16 @@ mod test {
 
     #[tokio::test]
     async fn task1() {
-        routes_test().get("/8/weight/25").await.assert_json(&6f64);
+        routes_test()
+            .await
+            .get("/8/weight/25")
+            .await
+            .assert_json(&6f64);
     }
 
     #[tokio::test]
     async fn task2() {
-        let res: f64 = routes_test().get("/8/drop/25").await.json();
+        let res: f64 = routes_test().await.get("/8/drop/25").await.json();
         assert!(res - 84.10707 <= 0.001 || res - 84.10707 > 0.001)
     }
 }

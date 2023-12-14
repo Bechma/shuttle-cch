@@ -89,7 +89,7 @@ mod test {
 
     #[tokio::test]
     async fn task1() {
-        let server = routes_test();
+        let server = routes_test().await;
         server
             .post("/12/save/packet20231212")
             .await
@@ -117,6 +117,7 @@ mod test {
     #[tokio::test]
     async fn task2() {
         routes_test()
+            .await
             .post("/12/ulids")
             .json(&json!([
                 "01BJQ0E1C3Z56ABCD0E11HYX4M",
@@ -138,6 +139,7 @@ mod test {
     #[tokio::test]
     async fn task3() {
         routes_test()
+            .await
             .post("/12/ulids/5")
             .json(&json!([
                 "00WEGGF0G0J5HEYXS3D7RWZGV8",
@@ -162,6 +164,7 @@ mod test {
     #[tokio::test]
     async fn extra1() {
         routes_test()
+            .await
             .post("/12/ulids/0")
             .json(&json!([
                 "00WEGGF0G0J5HEYXS3D7RWZGV8",
@@ -186,6 +189,7 @@ mod test {
     #[tokio::test]
     async fn extra2() {
         routes_test()
+            .await
             .post("/12/ulids/2")
             .json(&json!(["04BJK8N300BAMR9SQQWPWHVYKZ"]))
             .await

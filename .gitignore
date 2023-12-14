@@ -3,3 +3,4 @@
 Secrets*.toml
 http-cacache
 venv
+test.db

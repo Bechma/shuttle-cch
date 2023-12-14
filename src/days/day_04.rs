@@ -86,6 +86,7 @@ mod test {
     #[tokio::test]
     async fn task1() {
         routes_test()
+            .await
             .post("/4/strength")
             .json(&json!([
               { "name": "Dasher", "strength": 5 },
@@ -100,6 +101,7 @@ mod test {
     #[tokio::test]
     async fn task2() {
         routes_test()
+            .await
             .post("/4/contest")
             .json(&json!([
               {

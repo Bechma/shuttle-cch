@@ -25,6 +25,9 @@ rustemon = "*"
 # day 11
 image = "0.24.7"
 
+# shared?
+sqlx = { version = "0.7.3", features = ["sqlite", "runtime-tokio"] }
+
 # day 12
 ulid = "1.1.0"
 uuid = "1.6.1"

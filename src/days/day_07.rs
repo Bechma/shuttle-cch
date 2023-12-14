@@ -91,6 +91,7 @@ mod test {
     #[tokio::test]
     async fn task1() {
         routes_test()
+            .await
             .get("/7/decode")
             .add_cookie(Cookie::new(
                 COOKIE_NAME,
@@ -102,7 +103,7 @@ mod test {
 
     #[tokio::test]
     async fn task2() {
-        routes_test()
+        routes_test().await
             .get("/7/bake")
             .add_cookie(Cookie::new(
                 COOKIE_NAME,
@@ -123,7 +124,7 @@ mod test {
 
     #[tokio::test]
     async fn task3() {
-        routes_test()
+        routes_test().await
             .get("/7/bake")
             .add_cookie(Cookie::new(
                 COOKIE_NAME,
@@ -142,6 +143,7 @@ mod test {
     #[tokio::test]
     async fn extra1() {
         routes_test()
+            .await
             .get("/7/bake")
             .add_cookie(Cookie::new(
                 COOKIE_NAME,
@@ -158,7 +160,7 @@ mod test {
 
     #[tokio::test]
     async fn extra2() {
-        routes_test()
+        routes_test().await
             .get("/7/bake")
             .add_cookie(Cookie::new(
                 COOKIE_NAME,
@@ -177,7 +179,7 @@ mod test {
 
     #[tokio::test]
     async fn extra3() {
-        routes_test()
+        routes_test().await
             .get("/7/bake")
             .add_cookie(Cookie::new(
                 COOKIE_NAME,
@@ -195,7 +197,7 @@ mod test {
 
     #[tokio::test]
     async fn extra4() {
-        routes_test()
+        routes_test().await
             .get("/7/bake")
             .add_cookie(Cookie::new(
                 COOKIE_NAME,

@@ -22,15 +22,19 @@ mod test {
     use super::super::routes_test;
     #[tokio::test]
     async fn task1() {
-        routes_test().get("/1/4/8").await.assert_json(&1728);
+        routes_test().await.get("/1/4/8").await.assert_json(&1728);
     }
     #[tokio::test]
     async fn task2_1() {
-        routes_test().get("/1/10").await.assert_json(&1000);
+        routes_test().await.get("/1/10").await.assert_json(&1000);
     }
 
     #[tokio::test]
     async fn task2_2() {
-        routes_test().get("/1/4/5/8/10").await.assert_json(&27);
+        routes_test()
+            .await
+            .get("/1/4/5/8/10")
+            .await
+            .assert_json(&27);
     }
 }

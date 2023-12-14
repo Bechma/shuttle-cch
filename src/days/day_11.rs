@@ -28,7 +28,7 @@ mod test {
 
     #[tokio::test]
     async fn task1() {
-        let response = routes_test().get("/11/assets/decoration.png").await;
+        let response = routes_test().await.get("/11/assets/decoration.png").await;
         assert_eq!(
             response
                 .header(axum_test::http::header::CONTENT_TYPE)

@@ -1,70 +1,57 @@
+use std::collections::HashMap;
+use std::sync::{Arc, Mutex};
+
 use axum::extract::State;
 use axum::routing::{get, post};
 use axum::{Json, Router};
 
-pub(super) fn route(pool: sqlx::SqlitePool) -> Router {
+type Day13State = Arc<Mutex<HashMap<i64, Order>>>;
+
+pub(super) fn route() -> Router {
     Router::new()
         .route("/sql", get(sql))
         .route("/reset", post(reset))
         .route("/orders", post(insert_orders))
         .route("/orders/total", get(total))
         .route("/orders/popular", get(popular))
-        .with_state(pool)
+        .with_state(Arc::new(Mutex::new(HashMap::<i64, Order>::new())))
 }
 
 #[derive(serde::Deserialize)]
 struct Order {
     id: i64,
-    region_id: i64,
+    // region_id: i64,
     gift_name: String,
-    quantity: i64,
+    quantity: u64,
 }
 
-async fn sql(State(db): State<sqlx::SqlitePool>) -> Json<i32> {
-    let res: i32 = sqlx::query_scalar("SELECT 20231213")
-        .fetch_one(&db)
-        .await
-        .unwrap();
-    Json(res)
+async fn sql() -> Json<i64> {
+    Json(20231213)
 }
 
-async fn reset(State(db): State<sqlx::SqlitePool>) {
-    // No TRUNCATE TABLE in sqlite
-    sqlx::query("DELETE FROM orders")
-        .execute(&db)
-        .await
-        .unwrap();
+async fn reset(State(db): State<Day13State>) {
+    db.lock().unwrap().clear();
 }
 
-async fn insert_orders(State(db): State<sqlx::SqlitePool>, Json(payload): Json<Vec<Order>>) {
-    let mut tx = db.begin().await.unwrap();
-    for order in payload.iter() {
-        sqlx::query(
-            r#"INSERT INTO orders (id, region_id, gift_name, quantity)
-            VALUES ($1, $2, $3, $4)"#,
-        )
-        .bind(order.id)
-        .bind(order.region_id)
-        .bind(&order.gift_name)
-        .bind(order.quantity)
-        .execute(tx.as_mut())
-        .await
-        .unwrap();
-    }
-    tx.commit().await.unwrap();
+async fn insert_orders(State(db): State<Day13State>, Json(payload): Json<Vec<Order>>) {
+    db.lock()
+        .unwrap()
+        .extend(payload.into_iter().map(|x| (x.id, x)));
 }
 
 #[derive(serde::Serialize)]
 struct Total {
-    total: i64,
+    total: u64,
 }
 
-async fn total(State(db): State<sqlx::SqlitePool>) -> Json<Total> {
+async fn total(State(db): State<Day13State>) -> Json<Total> {
     Json(Total {
-        total: sqlx::query_scalar("SELECT SUM(quantity) FROM orders")
-            .fetch_one(&db)
-            .await
-            .unwrap(),
+        total: db
+            .lock()
+            .unwrap()
+            .values()
+            .map(|order| order.quantity)
+            .sum(),
     })
 }
 
@@ -73,14 +60,17 @@ struct Popular {
     popular: Option<String>,
 }
 
-async fn popular(State(db): State<sqlx::SqlitePool>) -> Json<Popular> {
+async fn popular(State(db): State<Day13State>) -> Json<Popular> {
+    let db = db.lock().unwrap();
+    let mut counter = HashMap::<&str, u64>::new();
+    for order in db.values() {
+        counter
+            .entry(&order.gift_name)
+            .and_modify(|x| *x += order.quantity)
+            .or_insert(order.quantity);
+    }
     Json(Popular {
-        popular: sqlx::query_scalar(
-            "SELECT gift_name FROM orders GROUP BY gift_name ORDER BY SUM(quantity) DESC LIMIT 1",
-        )
-        .fetch_optional(&db)
-        .await
-        .unwrap(),
+        popular: counter.iter().max_by_key(|x| x.1).map(|x| x.0.to_string()),
     })
 }
 
