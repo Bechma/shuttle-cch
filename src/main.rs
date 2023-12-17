@@ -19,7 +19,8 @@ async fn main() -> shuttle_axum::ShuttleAxum {
     let router = Router::new()
         .route("/", get(hello_world))
         .route("/-1/error", get(fake_err))
-        .nest("/", days::routes(pool));
+        .nest("/", days::routes(pool))
+        .layer(tower_http::trace::TraceLayer::new_for_http());
 
     Ok(router.into())
 }

@@ -10,6 +10,7 @@ mod day_12;
 mod day_13;
 mod day_13_dummy;
 mod day_14;
+mod day_15;
 
 pub fn routes(pool: sqlx::SqlitePool) -> Router {
     Router::new()
@@ -23,13 +24,17 @@ pub fn routes(pool: sqlx::SqlitePool) -> Router {
         .nest("/13", day_13::route(pool))
         .nest("/13/dummy", day_13_dummy::route())
         .nest("/14", day_14::route())
+        .nest("/15", day_15::route())
 }
 
 #[cfg(test)]
 pub(crate) async fn routes_test() -> axum_test::TestServer {
     let pool = sqlx::SqlitePool::connect("sqlite::memory:").await.unwrap();
     sqlx::migrate!().run(&pool).await.unwrap();
-    let app = routes(pool);
+    tracing_subscriber::fmt()
+        .with_max_level(tracing::Level::DEBUG)
+        .init();
+    let app = routes(pool).layer(tower_http::trace::TraceLayer::new_for_http());
     let config = axum_test::TestServerConfig::builder()
         // Preserve cookies across requests
         // for the session cookie to work.

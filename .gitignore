@@ -1,4 +1,6 @@
+.idea
 /target
+/examples
 .shuttle-storage
 Secrets*.toml
 http-cacache
