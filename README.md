@@ -1,7 +1,25 @@
 Shuttle's Christmas Code Hunt
 =============================
 
-## [🎄 Day 1: Packet "exclusive-cube" not found](src/days/day_01.rs)
+# Index:
+
+- [🎄 Day 1: Packet "exclusive-cube" not found](#-day-1-packet-exclusive-cube-not-found)
+- [Day 2 and Day 3 missing due to some issues in shuttle](#day-2-and-day-3-missing-due-to-some-issues-in-shuttle)
+- [🎄 Day 4: What do you call a serialized reindeer? Serdeer!](#-day-4-what-do-you-call-a-serialized-reindeer-serdeer)
+- [🎄 Day 5 got missing, IDK the reason](#-day-5-got-missing-idk-the-reason)
+- [🎄 Day 6: Elf on a shelf](#-day-6-elf-on-a-shelf)
+- [🎄 Day 7: GET Santa some cookies](#-day-7-get-santa-some-cookies)
+- [🎄 Day 8: PokéPhysics](#-day-8-poképhysics)
+- [🎄 Day 11: Imagery from the North Pole](#-day-11-imagery-from-the-north-pole)
+- [🎄 Day 12: Timekeeper](#-day-12-timekeeper)
+- [🎄 Day 13: Santa's Gift Orders](#-day-13-santas-gift-orders)
+- [🎄 Day 14: Reindeering HTML](#-day-14-reindeering-html)
+- [🎄 Day 15: The Password Validator](#-day-15-the-password-validator)
+- [🎄 Day 18: Santa's Gift Orders: Data Analytics Edition](#-day-18-santas-gift-orders-data-analytics-edition)
+
+## 🎄 Day 1: Packet "exclusive-cube" not found
+
+### [solution](src/days/day_01.rs)
 
 In the frosty expanses of the North Pole, Santa's advanced packet management system has encountered a glitch. This
 system, known for its robustness and magical speed, is responsible for sorting and dispatching all the Christmas
@@ -48,7 +66,9 @@ curl http://localhost:8000/1/4/5/8/10
 
 ## Day 2 and Day 3 missing due to some issues in shuttle
 
-## [🎄 Day 4: What do you call a serialized reindeer? Serdeer!](src/days/day_04.rs)
+## 🎄 Day 4: What do you call a serialized reindeer? Serdeer!
+
+### [solution](src/days/day_04.rs)
 
 Under the soft glow of the Northern Lights, Santa's reindeer are training for the big night. But, oh deer! The
 reindeer's stats have been serialized into an unknown format after a playful elf accidentally spilled hot cocoa on the
@@ -139,7 +159,9 @@ is parsed and checked as a value.
 The Grinch stole the contents of this challenge while the Shuttle team wasn't looking! Check back soon in case we find
 the challenge contents!
 
-## [🎄 Day 6: Elf on a shelf](src/days/day_06.rs)
+## 🎄 Day 6: Elf on a shelf
+
+### [solution](src/days/day_06.rs)
 
 It's that time of year when the elves hide on shelves to watch over the children of the world, reporting back to Santa
 on who's been naughty or nice. However, this year's reports have been mixed up with the rest of the letters to Santa,
@@ -185,7 +207,9 @@ there is also another shelf in Belfast.'
 {"elf":5,"elf on a shelf":1,"shelf with no elf on it":1}
 ```
 
-## [🎄 Day 7: GET Santa some cookies](src/days/day_07.rs)
+## 🎄 Day 7: GET Santa some cookies
+
+### [solution](src/days/day_07.rs)
 
 At Santa's base near the North Pole (64 km away to be precise), the scent of freshly baked cookies fills the air, a sign
 that Christmas is near. Santa, however, has forgotten the encoding method that was used to hide his favorite cookie
@@ -298,7 +322,9 @@ curl http://localhost:8000/7/bake \
 }
 ```
 
-## [🎄 Day 8: PokéPhysics](src/days/day_08.rs)
+## 🎄 Day 8: PokéPhysics
+
+## [solution](src/days/day_08.rs)
 
 In the heart of the North Pole, Santa's workshop buzzes with a new type of magic. A portal has opened, and Pokémon from
 another world have tumbled into the snow-dusted realm of elves and reindeer. Santa, ever the innovator, sees an
@@ -346,7 +372,9 @@ curl http://localhost:8000/8/drop/25
 
 Validation has a fault tolerance of 0.001
 
-## [🎄 Day 11: Imagery from the North Pole](src/days/day_11.rs)
+## 🎄 Day 11: Imagery from the North Pole
+
+### [solution](src/days/day_11.rs)
 
 Decked out in his signature red coat, Santa's eyes sparkle brighter than the Northern Star as he navigates through tall
 shelves packed with newly produced Christmas decorations for the season. Handcrafted glass balls, ornate stars,
@@ -394,7 +422,9 @@ curl -X POST http://localhost:8000/11/red_pixels \
 73034
 ```
 
-## [🎄 Day 12: Timekeeper](src/days/day_12.rs)
+## 🎄 Day 12: Timekeeper
+
+### [solution](src/days/day_12.rs)
 
 One frosty night, Santa, dressed warmly in his favorite red coat, decided to take a midnight stroll around the elf
 workshop. As he pushed open the heavy wooden doors of the workshop, his eyes widened in surprise. He was completely
@@ -502,7 +532,9 @@ curl -X POST http://localhost:8000/12/ulids/5 \
 }
 ```
 
-## [🎄 Day 13: Santa's Gift Orders](src/days/day_13.rs)
+## 🎄 Day 13: Santa's Gift Orders
+
+### [solution](src/days/day_13.rs)
 
 Santa Claus has started facing a pressing issue at the North Pole. The existing database, written in a legacy language,
 is becoming insufficient for handling the tidal wave of gift requests from children worldwide. This ancient system is
@@ -591,7 +623,9 @@ curl http://localhost:8000/13/orders/popular
 {"popular":"Toy Train"}
 ```
 
-## [🎄 Day 14: Reindeering HTML](src/days/day_14.rs)
+## 🎄 Day 14: Reindeering HTML
+
+### [solution](src/days/day_14.rs)
 
 Did you hear about the time when Santa became a web designer? He picked up coding with great enthusiasm. Each tag told a
 story, every element was a toy, and every attribute was a wish from a child around the world. He soon managed to build a
@@ -659,7 +693,9 @@ curl -X POST http://localhost:8000/14/safe \
 </html>
 ```
 
-## [🎄 Day 15: The Password Validator](src/days/day_15.rs)
+## 🎄 Day 15: The Password Validator
+
+### [solution](src/days/day_15.rs)
 
 There had been a few naughty incidents where mischievous users had tinkered with other children's wish lists, not
 respecting the goodwill and spirit of the platform. It was clear: the website needed to add a layer of security to
@@ -776,4 +812,139 @@ curl -X POST http://localhost:8000/15/game \
 
 # 451 Unavailable For Legal Reasons
 {"result":"naughty","reason":"illegal: no sandwich"}
+```
+
+## 🎄 Day 18: Santa's Gift Orders: Data Analytics Edition
+
+### [solution](src/days/day_18.rs)
+
+Santa sat back in his plush seat, a mug of hot cocoa in his hand, and a smile on his jolly face. The database upgrade
+from the previous week had indeed worked out exceptionally well; the operations were running smoother than ever, the
+reports were accurate, and morale among his helpers was at an all-time high. This modern marvel of technology had
+infused a new spirit into the North Pole operations.
+
+⭐ Task 1: Mr. Worldwide
+
+This challenge continues from what was built for the Core tasks on Day 13.
+
+Santa is stoked about the speed and reliability of the new gift order database backend! He wants you to expand it to
+support per-region analytics.
+
+Copy the /13/reset endpoint from Day 13 to /18/reset, but modify the query like this:
+
+```sql
+DROP TABLE IF EXISTS regions;
+DROP TABLE IF EXISTS orders;
+
+CREATE TABLE regions
+(
+    id   INT PRIMARY KEY,
+    name VARCHAR(50)
+);
+
+CREATE TABLE orders
+(
+    id        INT PRIMARY KEY,
+    region_id INT,
+    gift_name VARCHAR(50),
+    quantity  INT
+);
+```
+
+We want to re-use the POST endpoint /13/orders at /18/orders for adding new orders. You can either add the same handler
+under the new route, or just copy+paste the entire thing, as long as both endpoints are doing the same thing.
+
+Now, add a POST endpoint /18/regions that inserts regions in the same way the orders endpoint does.
+
+Lastly, add a GET endpoint /18/regions/total that returns the total number of orders per region. To make it easier for
+Santa to find a location, the output should be alphabetically sorted on the region name. Regions with no orders should
+not be listed in the result.
+
+💠 Example
+
+```bash
+curl -X POST http://localhost:8000/18/reset
+curl -X POST http://localhost:8000/18/regions \
+-H 'Content-Type: application/json' \
+-d '[
+  {"id":1,"name":"North Pole"},
+  {"id":2,"name":"Europe"},
+  {"id":3,"name":"North America"},
+  {"id":4,"name":"South America"},
+  {"id":5,"name":"Africa"},
+  {"id":6,"name":"Asia"},
+  {"id":7,"name":"Oceania"}
+]'
+curl -X POST http://localhost:8000/18/orders \
+-H 'Content-Type: application/json' \
+-d '[
+  {"id":1,"region_id":2,"gift_name":"Board Game","quantity":5},
+  {"id":2,"region_id":2,"gift_name":"Origami Set","quantity":8},
+  {"id":3,"region_id":3,"gift_name":"Action Figure","quantity":12},
+  {"id":4,"region_id":4,"gift_name":"Teddy Bear","quantity":10},
+  {"id":5,"region_id":2,"gift_name":"Yarn Ball","quantity":6},
+  {"id":6,"region_id":3,"gift_name":"Art Set","quantity":3},
+  {"id":7,"region_id":5,"gift_name":"Robot Lego Kit","quantity":5},
+  {"id":8,"region_id":6,"gift_name":"Drone","quantity":9}
+]'
+curl http://localhost:8000/18/regions/total
+
+# [
+#   {"region":"Africa","total":5},
+#   {"region":"Asia","total":9},
+#   {"region":"Europe","total":19},
+#   {"region":"North America","total":15},
+#   {"region":"South America","total":10}
+# ]
+```
+
+🎁 Task 2: West Pole to East Pole - Santa wants ALL the data (600 bonus points)
+
+To optimize production of gifts for next year, Santa needs detailed insights into the best performing gifts in every
+region.
+
+Create a GET endpoint /18/regions/top_list/<number> that retrieves the names of the regions along with the top <number>
+most ordered gifts in each region, considering the quantity of orders placed for each gift.
+
+If there are less than <number> unique gifts in a region, the top list will be shorter. If there are no gifts in a
+region, show that with an empty top list.
+
+If there is a tie among gifts, use alphabetical ordering of the gift name to break it. The final output shall once again
+be ordered by region name.
+
+💠 Example
+
+```bash
+curl -X POST http://localhost:8000/18/reset
+
+curl -X POST http://localhost:8000/18/regions \
+-H 'Content-Type: application/json' \
+-d '[
+  {"id":1,"name":"North Pole"},
+  {"id":2,"name":"South Pole"},
+  {"id":3,"name":"Kiribati"},
+  {"id":4,"name":"Baker Island"}
+]'
+
+curl -X POST http://localhost:8000/18/orders \
+-H 'Content-Type: application/json' \
+-d '[
+  {"id":1,"region_id":2,"gift_name":"Toy Train","quantity":5},
+  {"id":2,"region_id":2,"gift_name":"Toy Train","quantity":3},
+  {"id":3,"region_id":2,"gift_name":"Doll","quantity":8},
+  {"id":4,"region_id":3,"gift_name":"Toy Train","quantity":3},
+  {"id":5,"region_id":2,"gift_name":"Teddy Bear","quantity":6},
+  {"id":6,"region_id":3,"gift_name":"Action Figure","quantity":12},
+  {"id":7,"region_id":4,"gift_name":"Board Game","quantity":10},
+  {"id":8,"region_id":3,"gift_name":"Teddy Bear","quantity":1},
+  {"id":9,"region_id":3,"gift_name":"Teddy Bear","quantity":2}
+]'
+curl http://localhost:8000/18/regions/top_list/2
+
+# [
+#   {"region":"Baker Island","top_gifts":["Board Game"]},
+#   {"region":"Kiribati","top_gifts":["Action Figure","Teddy Bear"]},
+#   {"region":"North Pole","top_gifts":[]},
+#   {"region":"South Pole","top_gifts":["Doll","Toy Train"]}
+# ]
 ```

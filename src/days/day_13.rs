@@ -13,11 +13,11 @@ pub(super) fn route(pool: sqlx::SqlitePool) -> Router {
 }
 
 #[derive(serde::Deserialize)]
-struct Order {
-    id: i64,
-    region_id: i64,
-    gift_name: String,
-    quantity: i64,
+pub(super) struct Order {
+    pub(super) id: i64,
+    pub(super) region_id: i64,
+    pub(super) gift_name: String,
+    pub(super) quantity: i64,
 }
 
 async fn sql(State(db): State<sqlx::SqlitePool>) -> Json<i32> {
@@ -36,7 +36,10 @@ async fn reset(State(db): State<sqlx::SqlitePool>) {
         .unwrap();
 }
 
-async fn insert_orders(State(db): State<sqlx::SqlitePool>, Json(payload): Json<Vec<Order>>) {
+pub(super) async fn insert_orders(
+    State(db): State<sqlx::SqlitePool>,
+    Json(payload): Json<Vec<Order>>,
+) {
     let mut tx = db.begin().await.unwrap();
     for order in &payload {
         sqlx::query(
