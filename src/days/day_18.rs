@@ -91,6 +91,21 @@ async fn top_list(
                 .unwrap(),
         );
     }
+    // Just for fun, this is for postgres:
+    //
+    // SELECT region, case
+    // when true = ANY(SELECT unnest(top_gifts) IS NULL) THEN '{}'
+    // else top_gifts
+    // END as top_gifts
+    // FROM (SELECT region, array_agg(gift_name) as top_gifts FROM (
+    //     SELECT regions.name as region, gift_name, row_number() OVER (PARTITION BY regions.name order by regions.name ASC, SUM(quantity) DESC, gift_name ASC) as row_num
+    //     FROM regions LEFT OUTER JOIN orders ON regions.id = orders.region_id
+    //     GROUP BY regions.name, gift_name
+    //     ORDER BY regions.name ASC, SUM(quantity) DESC, gift_name ASC
+    //   ) as deep
+    //   where row_num <= 2
+    //   group by region
+    // ) as not_deep;
     sqlx::query(
         r"
 SELECT region, group_concat(gift_name, ', ') as top_gifts FROM (
