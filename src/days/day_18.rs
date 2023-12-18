@@ -102,6 +102,18 @@ async fn top_list(
     //   ) as deep
     // where row_num <= 2
     // group by region;
+    //
+    //
+    // Solved in SurrealDB for even more fun:
+    //
+    // SELECT name as region, array::slice((
+    //     SELECT region_id, gift_name, math::sum(quantity) as q
+    //     FROM orders
+    //     WHERE region_id=$parent.id
+    //     GROUP BY region_id, gift_name
+    //     ORDER BY q desc
+    // ).gift_name, 0, 2) as top_gift FROM regions
+    // ORDER BY region;
     sqlx::query(
         r"
 SELECT region, group_concat(gift_name, ', ') as top_gifts FROM (
