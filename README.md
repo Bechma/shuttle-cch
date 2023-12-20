@@ -16,7 +16,8 @@ Shuttle's Christmas Code Hunt
 - [🎄 Day 14: Reindeering HTML](#-day-14-reindeering-html)
 - [🎄 Day 15: The Password Validator](#-day-15-the-password-validator)
 - [🎄 Day 18: Santa's Gift Orders: Data Analytics Edition](#-day-18-santas-gift-orders-data-analytics-edition)
-- [🎄 Day 19: Santa's Gift Orders: Data Analytics Edition 2](#-day-19-santas-gift-orders-data-analytics-edition-2)
+- [🎄 Day 19: Christmas Sockets on the Chimney](#-day-19-christmas-sockets-on-the-chimney)
+- [🎄 Day 20: Git good](#-day-20-git-good)
 
 ## [🎄 Day 1: Packet "exclusive-cube" not found](src/days/day_01.rs)
 
