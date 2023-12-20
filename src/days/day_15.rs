@@ -28,12 +28,8 @@ struct NiceOutput {
     result: Result,
 }
 
-fn extract(payload: serde_json::Value) -> Option<String> {
-    payload
-        .as_object()?
-        .get("input")?
-        .as_str()
-        .map(ToString::to_string)
+fn extract(mut payload: serde_json::Value) -> Option<String> {
+    payload.as_object_mut()?.remove("input")?.to_string().into()
 }
 
 #[tracing::instrument(ret)]
@@ -139,11 +135,9 @@ enum Reason {
 impl IntoResponse for Reason {
     fn into_response(self) -> Response {
         match self {
-            Reason::BadRequest => (StatusCode::BAD_REQUEST, Json(Task2::naughty(self))),
-            Reason::Rule1 => (StatusCode::BAD_REQUEST, Json(Task2::naughty(self))),
-            Reason::Rule2 => (StatusCode::BAD_REQUEST, Json(Task2::naughty(self))),
-            Reason::Rule3 => (StatusCode::BAD_REQUEST, Json(Task2::naughty(self))),
-            Reason::Rule4 => (StatusCode::BAD_REQUEST, Json(Task2::naughty(self))),
+            Reason::BadRequest | Reason::Rule1 | Reason::Rule2 | Reason::Rule3 | Reason::Rule4 => {
+                (StatusCode::BAD_REQUEST, Json(Task2::naughty(self)))
+            }
             Reason::Rule5 => (StatusCode::NOT_ACCEPTABLE, Json(Task2::naughty(self))),
             Reason::Rule6 => (
                 StatusCode::UNAVAILABLE_FOR_LEGAL_REASONS,

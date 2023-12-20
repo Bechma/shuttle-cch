@@ -35,9 +35,10 @@ pub fn routes(pool: sqlx::SqlitePool) -> Router {
 pub(crate) async fn routes_test() -> axum_test::TestServer {
     let pool = sqlx::SqlitePool::connect("sqlite::memory:").await.unwrap();
     sqlx::migrate!().run(&pool).await.unwrap();
-    tracing_subscriber::fmt()
+    // Force to init the tracing subscriber, first test call will succeed, rest will error out
+    let _ = tracing_subscriber::fmt()
         .with_max_level(tracing::Level::DEBUG)
-        .init();
+        .try_init();
     let app = routes(pool).layer(tower_http::trace::TraceLayer::new_for_http());
     let config = axum_test::TestServerConfig::builder()
         // Preserve cookies across requests
