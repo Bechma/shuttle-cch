@@ -18,9 +18,7 @@ Shuttle's Christmas Code Hunt
 - [🎄 Day 18: Santa's Gift Orders: Data Analytics Edition](#-day-18-santas-gift-orders-data-analytics-edition)
 - [🎄 Day 19: Santa's Gift Orders: Data Analytics Edition 2](#-day-19-santas-gift-orders-data-analytics-edition-2)
 
-## 🎄 Day 1: Packet "exclusive-cube" not found
-
-### [solution](src/days/day_01.rs)
+## [🎄 Day 1: Packet "exclusive-cube" not found](src/days/day_01.rs)
 
 In the frosty expanses of the North Pole, Santa's advanced packet management system has encountered a glitch. This
 system, known for its robustness and magical speed, is responsible for sorting and dispatching all the Christmas
@@ -67,9 +65,7 @@ curl http://localhost:8000/1/4/5/8/10
 
 ## Day 2 and Day 3 missing due to some issues in shuttle
 
-## 🎄 Day 4: What do you call a serialized reindeer? Serdeer!
-
-### [solution](src/days/day_04.rs)
+## [🎄 Day 4: What do you call a serialized reindeer? Serdeer!](src/days/day_04.rs)
 
 Under the soft glow of the Northern Lights, Santa's reindeer are training for the big night. But, oh deer! The
 reindeer's stats have been serialized into an unknown format after a playful elf accidentally spilled hot cocoa on the
@@ -160,9 +156,7 @@ is parsed and checked as a value.
 The Grinch stole the contents of this challenge while the Shuttle team wasn't looking! Check back soon in case we find
 the challenge contents!
 
-## 🎄 Day 6: Elf on a shelf
-
-### [solution](src/days/day_06.rs)
+## [🎄 Day 6: Elf on a shelf](src/days/day_06.rs)
 
 It's that time of year when the elves hide on shelves to watch over the children of the world, reporting back to Santa
 on who's been naughty or nice. However, this year's reports have been mixed up with the rest of the letters to Santa,
@@ -208,9 +202,7 @@ there is also another shelf in Belfast.'
 {"elf":5,"elf on a shelf":1,"shelf with no elf on it":1}
 ```
 
-## 🎄 Day 7: GET Santa some cookies
-
-### [solution](src/days/day_07.rs)
+## [🎄 Day 7: GET Santa some cookies](src/days/day_07.rs)
 
 At Santa's base near the North Pole (64 km away to be precise), the scent of freshly baked cookies fills the air, a sign
 that Christmas is near. Santa, however, has forgotten the encoding method that was used to hide his favorite cookie
@@ -323,9 +315,7 @@ curl http://localhost:8000/7/bake \
 }
 ```
 
-## 🎄 Day 8: PokéPhysics
-
-## [solution](src/days/day_08.rs)
+## [🎄 Day 8: PokéPhysics](src/days/day_08.rs)
 
 In the heart of the North Pole, Santa's workshop buzzes with a new type of magic. A portal has opened, and Pokémon from
 another world have tumbled into the snow-dusted realm of elves and reindeer. Santa, ever the innovator, sees an
@@ -373,9 +363,7 @@ curl http://localhost:8000/8/drop/25
 
 Validation has a fault tolerance of 0.001
 
-## 🎄 Day 11: Imagery from the North Pole
-
-### [solution](src/days/day_11.rs)
+## [🎄 Day 11: Imagery from the North Pole](src/days/day_11.rs)
 
 Decked out in his signature red coat, Santa's eyes sparkle brighter than the Northern Star as he navigates through tall
 shelves packed with newly produced Christmas decorations for the season. Handcrafted glass balls, ornate stars,
@@ -423,9 +411,7 @@ curl -X POST http://localhost:8000/11/red_pixels \
 73034
 ```
 
-## 🎄 Day 12: Timekeeper
-
-### [solution](src/days/day_12.rs)
+## [🎄 Day 12: Timekeeper](src/days/day_12.rs)
 
 One frosty night, Santa, dressed warmly in his favorite red coat, decided to take a midnight stroll around the elf
 workshop. As he pushed open the heavy wooden doors of the workshop, his eyes widened in surprise. He was completely
@@ -533,9 +519,7 @@ curl -X POST http://localhost:8000/12/ulids/5 \
 }
 ```
 
-## 🎄 Day 13: Santa's Gift Orders
-
-### [solution](src/days/day_13.rs)
+## [🎄 Day 13: Santa's Gift Orders](src/days/day_13.rs)
 
 Santa Claus has started facing a pressing issue at the North Pole. The existing database, written in a legacy language,
 is becoming insufficient for handling the tidal wave of gift requests from children worldwide. This ancient system is
@@ -624,9 +608,7 @@ curl http://localhost:8000/13/orders/popular
 {"popular":"Toy Train"}
 ```
 
-## 🎄 Day 14: Reindeering HTML
-
-### [solution](src/days/day_14.rs)
+## [🎄 Day 14: Reindeering HTML](src/days/day_14.rs)
 
 Did you hear about the time when Santa became a web designer? He picked up coding with great enthusiasm. Each tag told a
 story, every element was a toy, and every attribute was a wish from a child around the world. He soon managed to build a
@@ -694,9 +676,7 @@ curl -X POST http://localhost:8000/14/safe \
 </html>
 ```
 
-## 🎄 Day 15: The Password Validator
-
-### [solution](src/days/day_15.rs)
+## [🎄 Day 15: The Password Validator](src/days/day_15.rs)
 
 There had been a few naughty incidents where mischievous users had tinkered with other children's wish lists, not
 respecting the goodwill and spirit of the platform. It was clear: the website needed to add a layer of security to
@@ -815,9 +795,7 @@ curl -X POST http://localhost:8000/15/game \
 {"result":"naughty","reason":"illegal: no sandwich"}
 ```
 
-## 🎄 Day 18: Santa's Gift Orders: Data Analytics Edition
-
-### [solution](src/days/day_18.rs)
+## [🎄 Day 18: Santa's Gift Orders: Data Analytics Edition](src/days/day_18.rs)
 
 Santa sat back in his plush seat, a mug of hot cocoa in his hand, and a smile on his jolly face. The database upgrade
 from the previous week had indeed worked out exceptionally well; the operations were running smoother than ever, the
@@ -999,3 +977,74 @@ This is how the app should work:
 - When the reset endpoint is called, the counter is set to 0.
 
 The view counter can be in-memory and does not need to persist.
+
+## [🎄 Day 20: Git good](src/days/day_20.rs)
+
+Santa frowned, his usually merry eyes scanning the data on the screen before him. Something wasn't right. He pulled up
+the database of gift orders worldwide, but there was a noticeable gap in the records. This was a serious issue, and
+Santa knew the implications immediately - missing orders meant missing gifts and unhappy children. Just the thought of
+it made his jolly cheer fade a bit, replaced by a hint of worry.
+
+"Time for a trip down memory lane," Santa mumbled to himself as he trudged his way towards the archives. The archives
+were a labyrinth of shelves, filled to the brim with old records and endless stacks of papers detailing all past
+Christmases. It was a treasure trove of information that had slowly been digitized, but the older records, the ones that
+were now in question, still lay tucked in the musty corners of the archive.
+
+It wouldn't be an easy task, and even Santa knew it could take hours, maybe even days. But every child mattered, and
+Santa would not rest until every record was found and every child got their rightful gift. With a deep breath, Santa
+began his journey in the archives, determined to fill in the gaps and ensure a merry Christmas for all.
+
+⭐ Task 1: Archive Analysis
+
+To find some very old gift order records, Santa needs to dig deep into the archives. You offer to help him parse and
+analyze the archive files.
+
+Create a POST endpoint /20/archive_files that receives a tar archive file in binary format and returns the number of
+files inside, and another POST endpoint /20/archive_files_size that does the same thing but instead returns the sum of
+all file sizes.
+
+💠 Example
+
+Download the test file [northpole20231220.tar](assets/northpole20231220.tar) and use it like this:
+
+```bash
+curl -X POST http://localhost:8000/20/archive_files \
+-H 'Content-Type: application/x-tar' \
+--data-binary '@northpole20231220.tar'
+
+6
+```
+
+```bash
+curl -X POST http://localhost:8000/20/archive_files_size \
+-H 'Content-Type: application/x-tar' \
+--data-binary '@northpole20231220.tar'
+
+1196282
+```
+
+🎁 Task 2: Git Santa his cookie back (350 bonus points)
+
+Santa lost his cookie recently, and can't find it anymore. Good thing that everything in the north pole is logged in the
+git logs! By using them, we can figure out the last one that saw it.
+
+Add the endpoint POST /20/cookie. It will receive a tar archive just like before, but this time it contains a .git
+directory with a repository structure inside. Extract the archive to somewhere on the file system (for example in a
+temporary directory with the crate tempfile) and find the answer to the following instruction that Santa wrote down:
+
+Find the name of the commit author and the commit hash of the most recent commit on the branch christmas that has a tree
+that contains a file called santa.txt (in any directory) with the string COOKIE anywhere inside of it.
+
+There are no merge commits in the repo (all commits have one parent, except the root commit).
+
+💠 Example
+
+Test file: [cookiejar.tar](assets/cookiejar.tar)
+
+```bash
+curl -X POST http://localhost:8000/20/cookie \
+-H 'Content-Type: application/x-tar' \
+--data-binary '@cookiejar.tar'
+
+Grinch 71dfab551a1958b35b7436c54b7455dcec99a12c
+```
