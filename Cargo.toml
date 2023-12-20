@@ -45,7 +45,6 @@ futures-util = "0.3.29"
 
 # day 20
 tar = "0.4.40"
-git-object = "0.26.2"
 flate2 = "1.0.28"
 
 [dev-dependencies]

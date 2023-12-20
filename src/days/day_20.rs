@@ -4,7 +4,6 @@ use std::io::Read;
 use axum::body::Bytes;
 use axum::routing::post;
 use axum::Router;
-use git_object::bstr::ByteSlice;
 
 pub(super) fn route() -> Router {
     Router::new()
@@ -47,8 +46,7 @@ async fn cookie(payload: Bytes) -> String {
         })
         .collect();
     // Let's go to the commit history of christmas from the newest to the oldest
-    for commit_line in hm[".git/logs/refs/heads/christmas"]
-        .to_str()
+    for commit_line in std::str::from_utf8(&hm[".git/logs/refs/heads/christmas"])
         .unwrap()
         .lines()
         .rev()
@@ -60,7 +58,7 @@ async fn cookie(payload: Bytes) -> String {
         tracing::info!(commit, user);
         // Get the commit contents
         let commit_content = decode_obj(&hm, commit);
-        let commit_content = commit_content.to_str().unwrap();
+        let commit_content = std::str::from_utf8(&commit_content).unwrap();
         tracing::info!(commit_content);
         // From the commit contents, extract the tree hash to get the whole changelog
         let tree = commit_content
@@ -79,29 +77,84 @@ async fn cookie(payload: Bytes) -> String {
 
 #[inline]
 fn decode_tree(hm: &HashMap<String, Vec<u8>>, obj: &str) -> bool {
-    // The library doesn't accept the common format `tree 12345X\0.....`
-    // So I need to manually trim `tree 12345X\0`
-    let tree: Vec<_> = decode_obj(hm, obj)
-        .into_iter()
-        .skip_while(|&x| x != 0) // skip tree 12345X
-        .skip(1) // skip \0
-        .collect();
-
-    let tree = git_object::TreeRef::from_bytes(tree.as_slice()).unwrap();
-    for entry in tree.entries {
-        if entry.mode == git_object::tree::EntryMode::Tree
-            && decode_tree(hm, &entry.oid.to_string())
-        {
+    for entry in Tree::from(decode_obj(hm, obj)).entries {
+        if matches!(entry.mode, Mode::Tree) && decode_tree(hm, &entry.hash) {
             return true;
         }
         if entry.filename != "santa.txt" {
             continue;
         }
-        if decode_obj(hm, &entry.oid.to_string()).contains_str("COOKIE") {
+        let blob = decode_obj(hm, &entry.hash);
+        let blob = std::str::from_utf8(blob.as_slice()).unwrap();
+        if blob.contains("COOKIE") {
             return true;
         }
     }
     false
+}
+
+#[derive(Debug)]
+enum Mode {
+    Tree,
+    Whatever,
+}
+
+impl From<u8> for Mode {
+    fn from(value: u8) -> Self {
+        if value == b'4' {
+            Self::Tree
+        } else {
+            Self::Whatever
+        }
+    }
+}
+
+#[derive(Debug)]
+struct Entry {
+    mode: Mode,
+    filename: String,
+    hash: String,
+}
+
+#[derive(Debug)]
+struct Tree {
+    entries: Vec<Entry>,
+}
+
+impl From<Vec<u8>> for Tree {
+    /// Parse a raw bytes tree object
+    #[tracing::instrument(ret)]
+    fn from(value: Vec<u8>) -> Self {
+        let mut res = Self { entries: vec![] };
+        // We don't actually care about `tree 12345X\0.....`
+        // So I trim it `tree 12345X\0`
+        let mut iter = value
+            .into_iter()
+            .skip_while(|&x| x != 0) // skip tree 12345X
+            .skip(1) // skip \0
+            .peekable();
+        while iter.peek().is_some() {
+            let mode = Mode::from(iter.next().expect("there should be a mode"));
+            let filename: String = iter
+                .by_ref()
+                .skip_while(|x| x != &b' ')
+                .take_while(|x| x != &b'\x00')
+                .map(char::from)
+                .skip(1)
+                .collect();
+            let hash: String = iter.by_ref().take(20).fold(String::new(), |mut acc, x| {
+                acc.push_str(&format!("{x:02x}"));
+                acc
+            });
+
+            res.entries.push(Entry {
+                mode,
+                filename,
+                hash,
+            });
+        }
+        res
+    }
 }
 
 #[tracing::instrument(skip(hm))]
