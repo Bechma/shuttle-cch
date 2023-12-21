@@ -1,7 +1,8 @@
-use axum::Router;
+use axum::{routing::post, Router};
 
 mod day_01;
 mod day_04;
+mod day_05;
 mod day_06;
 mod day_07;
 mod day_08;
@@ -14,11 +15,13 @@ mod day_15;
 mod day_18;
 mod day_19;
 mod day_20;
+mod day_21;
 
 pub fn routes(pool: sqlx::SqlitePool) -> Router {
     Router::new()
         .nest("/1", day_01::route())
         .nest("/4", day_04::route())
+        .route("/5", post(day_05::day))
         .nest("/6", day_06::route())
         .nest("/7", day_07::route())
         .nest("/8", day_08::route())
@@ -31,6 +34,7 @@ pub fn routes(pool: sqlx::SqlitePool) -> Router {
         .nest("/18", day_18::route(pool))
         .nest("/19", day_19::route())
         .nest("/20", day_20::route())
+        .nest("/21", day_21::route())
 }
 
 #[cfg(test)]

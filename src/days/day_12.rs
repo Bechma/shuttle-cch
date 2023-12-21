@@ -59,6 +59,7 @@ async fn task3(Path(weekday): Path<u8>, Json(payload): Json<Vec<String>>) -> Jso
 
     for s in payload {
         let input: ulid::Ulid = s.parse().unwrap();
+        #[allow(clippy::cast_possible_wrap)]
         let timestamp_ms = input.timestamp_ms() as i64;
         let datetime = chrono::Utc.timestamp_millis_opt(timestamp_ms).unwrap();
         if datetime.month() == 12 && datetime.day() == 24 {

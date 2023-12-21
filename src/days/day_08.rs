@@ -13,6 +13,7 @@ pub(super) fn route() -> Router {
         .with_state(rustemon_client)
 }
 
+#[allow(clippy::cast_precision_loss)]
 async fn weight(Path(pokemon): Path<i64>, State(client): State<Arc<RustemonClient>>) -> Json<f64> {
     rustemon::pokemon::pokemon::get_by_id(pokemon, &client)
         .await
@@ -22,6 +23,7 @@ async fn weight(Path(pokemon): Path<i64>, State(client): State<Arc<RustemonClien
 
 const G: f64 = 9.825;
 
+#[allow(clippy::cast_precision_loss)]
 async fn drop(Path(pokemon): Path<i64>, State(client): State<Arc<RustemonClient>>) -> Json<f64> {
     rustemon::pokemon::pokemon::get_by_id(pokemon, &client)
         .await

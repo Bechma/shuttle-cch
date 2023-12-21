@@ -6,7 +6,7 @@ Shuttle's Christmas Code Hunt
 - [🎄 Day 1: Packet "exclusive-cube" not found](#-day-1-packet-exclusive-cube-not-found)
 - [Day 2 and Day 3 missing due to some issues in shuttle](#day-2-and-day-3-missing-due-to-some-issues-in-shuttle)
 - [🎄 Day 4: What do you call a serialized reindeer? Serdeer!](#-day-4-what-do-you-call-a-serialized-reindeer-serdeer)
-- [🎄 Day 5 got missing, IDK the reason](#-day-5-got-missing-idk-the-reason)
+- [🎄 Day 5: Why did Santa's URL query go haywire on Christmas? Too many "present" parameters!](#-day-5-why-did-santas-url-query-go-haywire-on-christmas-too-many-present-parameters-)
 - [🎄 Day 6: Elf on a shelf](#-day-6-elf-on-a-shelf)
 - [🎄 Day 7: GET Santa some cookies](#-day-7-get-santa-some-cookies)
 - [🎄 Day 8: PokéPhysics](#-day-8-poképhysics)
@@ -18,6 +18,7 @@ Shuttle's Christmas Code Hunt
 - [🎄 Day 18: Santa's Gift Orders: Data Analytics Edition](#-day-18-santas-gift-orders-data-analytics-edition)
 - [🎄 Day 19: Christmas Sockets on the Chimney](#-day-19-christmas-sockets-on-the-chimney)
 - [🎄 Day 20: Git good](#-day-20-git-good)
+- [🎄 Day 21: Around the Globe](#-day-21-around-the-globe)
 
 ## [🎄 Day 1: Packet "exclusive-cube" not found](src/days/day_01.rs)
 
@@ -152,10 +153,75 @@ is parsed and checked as a value.
 }
 ```
 
-## 🎄 Day 5 got missing, IDK the reason
+## [🎄 Day 5: Why did Santa's URL query go haywire on Christmas? Too many "present" parameters!](src/days/day_05.rs)
 
-The Grinch stole the contents of this challenge while the Shuttle team wasn't looking! Check back soon in case we find
-the challenge contents!
+In the technologically advanced North Pole, Santa decided to streamline his gift-tracking system using URL query
+parameters, entrusting the elves with entering present requests. However, the mischievous Grinch added duplicate
+parameters like "present=puzzle" and "present=unicorn" as a prank. On Christmas Eve, as Santa set out to deliver gifts,
+the excess parameters caused a glitch: the list of names entered an infinite loop.
+
+⭐ Task 1: Slicing the Loop
+
+Santa has some lists of names that are becoming too long to deal with. Help him by adding URL query parameters for
+paginating the list.
+
+The task is to create a POST endpoint /5 that takes a JSON list of names, and query parameters offset and limit as
+numbers. Then, return the sub-slice of the list between index offset and offset + limit.
+
+💠 Example
+
+```bash
+curl -X POST "http://localhost:8000/5?offset=3&limit=5" \
+-H 'Content-Type: application/json' \
+-d '[
+"Ava", "Caleb", "Mia", "Owen", "Lily", "Ethan", "Zoe",
+"Nolan", "Harper", "Lucas", "Stella", "Mason", "Olivia"
+]'
+
+["Owen", "Lily", "Ethan", "Zoe", "Nolan"]
+```
+
+🎁 Task 2: Time to Page Some Names (150 bonus points)
+
+This time, Santa also needs to be able to get all pages at once.
+
+Modify the same endpoint, so that it can also handle a split parameter. All parameters should now be optional. If not
+given, offset defaults to 0, and limit defaults to including all remaining items in the list. If split is not given, no
+splitting will happen, but if given, the output list should be split into sub-lists with length according the the value.
+
+💠 Example
+
+```bash
+curl -X POST http://localhost:8000/5?split=4 \
+-H 'Content-Type: application/json' \
+-d '[
+"Ava", "Caleb", "Mia", "Owen", "Lily", "Ethan", "Zoe",
+"Nolan", "Harper", "Lucas", "Stella", "Mason", "Olivia"
+]'
+
+[
+["Ava", "Caleb", "Mia", "Owen"],
+["Lily", "Ethan", "Zoe", "Nolan"],
+["Harper", "Lucas", "Stella", "Mason"],
+["Olivia"]
+]
+```
+
+```bash
+curl -X POST "http://localhost:8000/5?offset=5&split=2" \
+-H 'Content-Type: application/json' \
+-d '[
+"Ava", "Caleb", "Mia", "Owen", "Lily", "Ethan", "Zoe",
+"Nolan", "Harper", "Lucas", "Stella", "Mason", "Olivia"
+]'
+
+[
+["Ethan", "Zoe"],
+["Nolan", "Harper"],
+["Lucas", "Stella"],
+["Mason", "Olivia"]
+]
+```
 
 ## [🎄 Day 6: Elf on a shelf](src/days/day_06.rs)
 
@@ -1048,4 +1114,56 @@ curl -X POST http://localhost:8000/20/cookie \
 --data-binary '@cookiejar.tar'
 
 Grinch 71dfab551a1958b35b7436c54b7455dcec99a12c
+```
+
+## [🎄 Day 21: Around the Globe](src/days/day_21.rs)
+
+Once upon a frosty night in Christmas' season, ol' Santa was tidying up his archives. With his rosy cheeks and a finer
+air of mystery, he stumbled upon a pile of old, dusty tape drives. Intrigued, he gave a mighty tug and dust flew in the
+air, making him sneeze in the most jolly way possible.
+
+As he dusted them off, memories flooded back. Such mirth and jingle echoed in his mind. They were his old present
+delivery logs and routes, the ones he hadn't seen in years!
+
+⭐ Task 1: Flat Squares on a Round Sphere?
+
+Santa found a bunch of old tape drives in the archives. Reading their contents revealed a bunch of coordinates in a
+strange format encoded with ones and zeroes. He needs some help with parsing them.
+
+Make a GET endpoint /21/coords/<binary> that takes a u64 in binary representation representing an S2 cell ID. Return the
+cell's center coordinates in DMS format rounded to 3 decimals (see format below).
+
+🔔 Tips
+
+S2 Cells
+Decimal degrees
+
+💠 Examples
+
+```bash
+curl http://localhost:8000/21/coords/0100111110010011000110011001010101011111000010100011110001011011
+
+83°39'54.324''N 30°37'40.584''W
+```
+
+```bash
+curl http://localhost:8000/21/coords/0010000111110000011111100000111010111100000100111101111011000101
+
+18°54'55.944''S 47°31'17.976''E
+```
+
+🎁 Task 2: Turbo-fast Country Lookup (300 bonus points)
+
+When Santa rides his sleigh across the world, he crosses so many country borders that he sometimes forgets which country
+he is in. He needs a handy little API for quickly checking where he has ended up.
+
+Make a GET endpoint /21/country/<binary> with the same type of input as in Task 1, that returns the english name of the
+country that the corresponding coordinates are in.
+
+The input is guaranteed to represent coordinates that are within one country's borders.
+
+```bash
+curl http://localhost:8000/21/country/0010000111110000011111100000111010111100000100111101111011000101
+
+Madagascar
 ```
