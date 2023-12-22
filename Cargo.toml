@@ -52,6 +52,9 @@ s2 = "0.0.12"
 reqwest = "*"
 governor = "0.6.0"
 
+# day 22
+pathfinding = "4.8.0"
+
 [dev-dependencies]
 axum-test = "*"
 tracing-subscriber = "0.3.18"

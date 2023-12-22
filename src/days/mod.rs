@@ -16,6 +16,7 @@ mod day_18;
 mod day_19;
 mod day_20;
 mod day_21;
+mod day_22;
 
 pub fn routes(pool: sqlx::SqlitePool) -> Router {
     Router::new()
@@ -35,6 +36,7 @@ pub fn routes(pool: sqlx::SqlitePool) -> Router {
         .nest("/19", day_19::route())
         .nest("/20", day_20::route())
         .nest("/21", day_21::route())
+        .nest("/22", day_22::route())
 }
 
 #[cfg(test)]
