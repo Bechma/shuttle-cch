@@ -1,5 +1,5 @@
 use std::cmp::Ordering;
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
 
 use axum::routing::post;
 use axum::Router;
@@ -12,21 +12,10 @@ pub(super) fn route() -> Router {
 
 #[tracing::instrument]
 async fn integers(payload: String) -> String {
-    let mut memory = HashSet::new();
-    let mut dup = HashSet::new();
-    for line in payload.lines() {
-        if !memory.insert(line) {
-            dup.insert(line);
-        }
-    }
     "🎁".repeat(
-        memory
-            .difference(&dup)
-            .map(|x| {
-                tracing::info!("FOUND: {x}");
-                x.parse::<usize>().unwrap()
-            })
-            .sum(),
+        payload
+            .lines()
+            .fold(0, |acc, x| acc ^ x.parse::<usize>().unwrap()),
     )
 }
 
