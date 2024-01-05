@@ -17,6 +17,8 @@ mod day_19;
 mod day_20;
 mod day_21;
 mod day_22;
+#[cfg(test)]
+mod tiebreaker;
 
 pub fn routes(pool: sqlx::SqlitePool) -> Router {
     Router::new()

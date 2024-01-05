@@ -55,6 +55,9 @@ governor = "0.6.0"
 # day 22
 pathfinding = "4.8.0"
 
+# tiebreaker
+josekit = "0.8.4"
+
 [dev-dependencies]
 axum-test = "*"
 tracing-subscriber = "0.3.18"
